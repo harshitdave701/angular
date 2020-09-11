@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button type="button" class="btn btn-primary mt-3 mx-3 float-right" (click)="logout()">Log Out</button>
+            <button type="button" class="btn btn-primary mt-3 float-right" [routerLink]="['add']">Add
+                Profile</button>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="container">
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Gender</th>
+                    <th scope="col">Skills</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of profileData; let i=index;">
+                    <th scope="row">{{i+1}}</th>
+                    <td>{{item.name}}</td>
+                    <td>{{item.age}}</td>
+                    <td>{{item.gender}}</td>
+                    <td>{{item.skills}}</td>
+                    <td colspan="2">
+                        <button class="btn btn-primary" routerLink='edit/{{item._id}}'>Edit</button>
+                        <button class="btn btn-danger mx-2" (click)="deleteProfile(item._id)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

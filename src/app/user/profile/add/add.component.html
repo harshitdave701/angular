@@ -1,0 +1,81 @@
+<div class="container">
+    <h3 class="text-center">{{id ? 'Edit Profile' : 'Add Profile'}}</h3>
+    <form #profileForm="ngForm" (ngSubmit)="profileForm.form.valid && OnSubmit()" novalidate>
+        <div class="row">
+            <div class="col-md-6 offset-lg-3">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" name="name" [(ngModel)]="profile.name" #name="ngModel"
+                        [ngClass]="{ 'is-invalid': profileForm.submitted && name.invalid }" required />
+                    <div *ngIf="profileForm.submitted && !name.valid" class="invalid-feedback">
+                        Name is required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="text" class="form-control" name="age" [(ngModel)]="profile.age" #age="ngModel"
+                        [ngClass]="{ 'is-invalid': profileForm.submitted && name.invalid }" required />
+                    <div *ngIf="profileForm.submitted && !age.valid" class="invalid-feedback">
+                        Age is required
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select class="form-control" name="gender" [(ngModel)]="profile.gender" #gender="ngModel"
+                        [ngClass]="{ 'is-invalid': profileForm.submitted && gender.invalid }" required>
+                        <option *ngFor="let gender of genderList" [value]="gender">{{gender | titlecase}}</option>
+                    </select>
+                    <div *ngIf="profileForm.submitted && gender.invalid" class="invalid-feedback">
+                        <div *ngIf="gender.errors.required">Please select gender from list.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-lg-3">
+                <div class="form-group">
+                    <div class="col-md-6 float-left">
+                        <h2>My Skills</h2>
+                        <div cdkDropList #mySkillList="cdkDropList" [cdkDropListData]="MySkill"
+                            [cdkDropListConnectedTo]="[allSkillsList]" class="movie-list"
+                            (cdkDropListDropped)="onDrop($event)">
+                            <div class="movie-block" *ngFor="let mySkill of MySkill; let i = index;" cdkDrag>
+                                {{i+1}}. {{mySkill}}
+                                <button type="button" class="close" (click)="removeSkill(mySkill)" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 float-right">
+                        <h2>Skills</h2>
+                        <div cdkDropList #allSkillsList="cdkDropList" [cdkDropListData]="AllSkillsList"
+                            [cdkDropListConnectedTo]="[mySkillList]" class="movie-list"
+                            (cdkDropListDropped)="onDrop($event)">
+                            <div class="movie-block" *ngFor="let allSkillsList of AllSkillsList; let i = index;" cdkDrag>{{i+1}}. {{allSkillsList}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-lg-3">
+                <strong>Note:</strong><p class="small bg-info p-1">Drag your skills from Skills to My Skills.</p>
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <div class="col-md-6 offset-lg-3">
+                <div class="form-group">
+                    <button class="btn btn-primary">{{id ? 'Update Profile' : 'Save Profile'}}</button>
+                    <button class="btn btn-danger mx-2" [routerLink]="['/profile']">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
